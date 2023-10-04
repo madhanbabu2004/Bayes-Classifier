@@ -23,32 +23,30 @@ Output:
 
 ## Program:
 ```
-from pgmpy.models import BayesianNetwork
-from pgmpy.factors.discrete import TabularCPD
-from pgmpy.inference import VariableElimination
-network=BayesianNetwork([('Burglary','Alarm'),('Earthquake','Alarm'),
-('Alarm','JohnCalls'),
-('Alarm','MarryCalls')])
-cpd_burglary=TabularCPD(variable='Burglary',variable_card=2,values=[[0.999],[0.001]])
-cpd_earthquake=TabularCPD(variable='Earthquake',variable_card=2,values=[[0.998],[0.002]])
-cpd_alarm=TabularCPD(variable='Alarm',variable_card=2,values=[[0.999,0.71,0.06,0.05],
-[0.001,0.29,0.94,0.95]],evidence=['Burglary','Earthquake'],evidence_card=[2,2])
-cpd_john_calls=TabularCPD(variable='JohnCalls',variable_card=2,values=[[0.95,0.1],
-[0.05,0.9]],evidence=['Alarm'],evidence_card=[2])
-cpd_marry_calls=TabularCPD(variable='MarryCalls',variable_card=2,values=[[0.99,0.3],
-[0.01,0.7]],evidence=['Alarm'],evidence_card=[2])
-network.add_cpds(cpd_burglary,cpd_earthquake,cpd_alarm,cpd_john_calls,cpd_marry_calls)
-inference=VariableElimination(network)
-evidence={'JohnCalls':1,'MarryCalls':0}
-query_variable='Burglary'
-result=inference.query(variables=[query_variable],evidence=evidence)
-print(result)
+import numpy as np
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+class BayesClassifier:
+def _init_(self):
+self.clf=GaussianNB()
+def fit(self,X,y):
+self.clf.fit(X,y)
+def predict(self,X):
+return self.clf.predict(X)
+iris=load_iris()
+X_train,X_test,y_train,y_test=train_test_split(iris.data,iris.target,test_size=0.3,random_state=38)
+clf=BayesClassifier()
+clf.fit(X_train,y_train)
+y_pred=clf.predict(X_test)
+accuracy=accuracy_score(y_test,y_pred)
+print("Accuracy: ",accuracy)
 ```
 
 ## Output:
 ![output](./a.png)
 ## Result:
 Hence, Bayes classifier for iris dataset is implemented successfully
-
 
 
