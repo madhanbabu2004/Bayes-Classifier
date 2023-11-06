@@ -1,4 +1,5 @@
-# Bayes-Classifier
+# Experiment 2 - Implementation of Bayesian classifier
+
 ## Aim:
 To Construct a Bayes Classifier to classiy iris dataset using Python.
 ## Algorithm:
